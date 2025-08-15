@@ -3,470 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elegant Wedding Photo Collector</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Wedding Photo Collector</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
         body {
-            background: linear-gradient(135deg, #fdf5f6, #fff9fb);
-            min-height: 100vh;
-            color: #5a3e36;
-            overflow-x: hidden;
-        }
-
-        .wedding-header {
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80') center/cover no-repeat;
-            height: 50vh;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            text-align: center;
-            color: white;
-            position: relative;
-            padding: 20px;
-        }
-
-        .couple-names {
-            font-size: 3.5rem;
-            font-weight: 500;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-            letter-spacing: 2px;
-        }
-
-        .wedding-date {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            font-weight: 300;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-
-        .quote {
-            max-width: 600px;
-            font-size: 1.1rem;
-            font-style: italic;
-            margin-top: 15px;
-            line-height: 1.6;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
         }
 
         .container {
-            max-width: 1200px;
-            margin: -50px auto 50px;
-            position: relative;
-            z-index: 10;
-            padding: 0 20px;
-        }
-
-        .tabs {
-            display: flex;
             background: white;
-            border-radius: 12px 12px 0 0;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        .tab {
-            flex: 1;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             text-align: center;
-            padding: 18px;
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: #b76e79;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .tab.active {
-            color: #8b3e4a;
-            background: rgba(183, 110, 121, 0.1);
-        }
-
-        .tab:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: #b76e79;
-            transform: scaleX(0);
-            transform-origin: center;
-            transition: transform 0.3s ease;
-        }
-
-        .tab.active:after {
-            transform: scaleX(1);
-        }
-
-        .tab-content {
-            display: none;
-            background: white;
-            padding: 30px;
-            border-radius: 0 0 12px 12px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
-            animation: fadeIn 0.5s ease;
+            width: 400px;
+            animation: fadeIn 1s ease-in-out;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .tab-content.active {
-            display: block;
-        }
-
-        .upload-area {
-            border: 2px dashed #e0c8d1;
-            border-radius: 15px;
-            padding: 30px 20px;
-            text-align: center;
-            background: rgba(255, 245, 245, 0.5);
+        h1 {
+            color: #333;
             margin-bottom: 20px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            animation: slideIn 0.8s ease-out;
         }
 
-        .upload-area.active {
-            border-color: #b76e79;
-            background: rgba(183, 110, 121, 0.05);
+        @keyframes slideIn {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
-        .upload-icon {
-            font-size: 3.5rem;
-            color: #b76e79;
-            margin-bottom: 15px;
-            animation: pulse 2s infinite;
+        p {
+            color: #666;
+            margin-bottom: 30px;
         }
 
-        .upload-text {
-            font-size: 1.1rem;
-            color: #777;
-            margin-bottom: 20px;
-        }
-
-        .upload-text strong {
-            color: #8b3e4a;
-            font-weight: 500;
-        }
-
-        .upload-btn {
-            background: linear-gradient(to right, #d8a5b0, #b76e79);
+        #uploadBtn {
+            background: #ff69b4;
             color: white;
             border: none;
-            padding: 14px 35px;
-            font-size: 1rem;
-            font-weight: 500;
+            padding: 15px 30px;
+            font-size: 16px;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(183, 110, 121, 0.3);
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
+            animation: pulse 2s infinite;
         }
 
-        .upload-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(183, 110, 121, 0.4);
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
-        .file-input {
+        #uploadBtn:hover {
+            background: #ff1493;
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+        }
+
+        #fileInput {
             display: none;
         }
 
-        .preview-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-            gap: 12px;
+        #status {
             margin-top: 20px;
-            max-height: 280px;
-            overflow-y: auto;
-            padding: 10px;
-            border-radius: 10px;
-            background: rgba(255, 245, 245, 0.3);
-            display: none;
-        }
-
-        .preview-item {
-            position: relative;
-            border-radius: 8px;
-            overflow: hidden;
-            height: 110px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .preview-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .preview-remove {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
-            width: 22px;
-            height: 22px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: #b76e79;
-            font-size: 12px;
-            transition: all 0.2s;
-        }
-
-        .preview-remove:hover {
-            background: #b76e79;
-            color: white;
-        }
-
-        .progress-container {
-            margin: 20px 0;
-            display: none;
-        }
-
-        .progress-bar {
-            height: 8px;
-            background: #f0f0f0;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 8px;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(to right, #d8a5b0, #b76e79);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .progress-text {
-            font-size: 0.85rem;
-            color: #777;
-            text-align: center;
-        }
-
-        .status-container {
-            padding: 12px 18px;
-            border-radius: 8px;
-            margin-top: 15px;
-            text-align: center;
-            font-weight: 500;
-            display: none;
-        }
-
-        .status-container.success {
-            background: rgba(40, 167, 69, 0.1);
             color: #28a745;
-            border: 1px solid rgba(40, 167, 69, 0.3);
+            font-weight: bold;
+            animation: fadeIn 0.5s;
         }
 
-        .status-container.error {
-            background: rgba(220, 53, 69, 0.1);
-            color: #dc3545;
-            border: 1px solid rgba(220, 53, 69, 0.3);
-        }
-
-        .gallery-container {
-            padding: 15px;
-        }
-
-        .gallery-header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .gallery-header h2 {
-            color: #8b3e4a;
-            font-size: 2rem;
-            margin-bottom: 8px;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 20px;
-            margin-top: 15px;
-        }
-
-        .gallery-item {
-            position: relative;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-            aspect-ratio: 4/5;
-            cursor: pointer;
-            transition: all 0.4s ease;
-        }
-
-        .gallery-item:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.18);
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.05);
-        }
-
-        .gallery-item .overlay {
+        .heart {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-            color: white;
-            opacity: 0;
-            transform: translateY(15px);
-            transition: all 0.4s ease;
-        }
-
-        .gallery-item:hover .overlay {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .gallery-item .overlay h3 {
-            font-size: 1rem;
-            margin-bottom: 4px;
-        }
-
-        .gallery-item .overlay p {
-            font-size: 0.85rem;
-            opacity: 0.8;
-        }
-
-        .lightbox {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .lightbox.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .lightbox-content {
-            position: relative;
-            max-width: 90%;
-            max-height: 90%;
-        }
-
-        .lightbox-content img {
-            max-width: 100%;
-            max-height: 80vh;
-            border-radius: 8px;
-            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
-        }
-
-        .lightbox-close {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 1.8rem;
-            color: white;
-            background: rgba(0, 0, 0, 0.5);
-            width: 45px;
-            height: 45px;
+            width: 20px;
+            height: 20px;
+            background: #ff69b4;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            animation: float 5s infinite ease-in-out;
         }
 
-        .lightbox-close:hover {
-            background: rgba(183, 110, 121, 0.8);
+        @keyframes float {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-100vh); opacity: 0; }
         }
 
-        .lightbox-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 45px;
-            height: 45px;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.3rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .lightbox-nav:hover {
-            background: rgba(183, 110, 121, 0.8);
-        }
-
-        .lightbox-prev {
-            left: 15px;
-        }
-
-        .lightbox-next {
-            right: 15px;
-        }
-
-        .gallery-empty {
-            text-align: center;
-            padding: 50px 30px;
-            color: #888;
-        }
-
-        .gallery-empty i {
-            font-size: 3.5rem;
-            margin-bottom: 15px;
-            color: #d8a5b0;
-        }
-
-        .gallery-empty h3 {
-            font-size: 1.6rem;
-            margin-bottom: 12px;
-            color: #8b3e4a;
-        }
-
-        .gallery-empty p {
-            font-size: 1rem;
-            max-width: 500px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        .floating-hearts {
+        .hearts-container {
             position: fixed;
             top: 0;
             left: 0;
@@ -475,541 +104,35 @@
             pointer-events: none;
             z-index: -1;
         }
-
-        .heart {
-            position: absolute;
-            width: 18px;
-            height: 18px;
-            background: #f8c8dc;
-            border-radius: 50%;
-            animation: float 8s infinite ease-in-out;
-            opacity: 0.7;
-        }
-
-        /* Animations */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes float {
-            0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.7; }
-            90% { opacity: 0.7; }
-            100% { transform: translateY(-20px) translateX(20px) rotate(360deg); opacity: 0; }
-        }
-
-        footer {
-            text-align: center;
-            padding: 25px;
-            color: #8b3e4a;
-            font-size: 0.85rem;
-            background: rgba(255, 255, 255, 0.8);
-            margin-top: 40px;
-            border-top: 1px solid rgba(183, 110, 121, 0.1);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .couple-names {
-                font-size: 2.5rem;
-            }
-            
-            .wedding-date {
-                font-size: 1.1rem;
-            }
-            
-            .gallery-grid {
-                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-                gap: 15px;
-            }
-            
-            .tab {
-                padding: 14px;
-                font-size: 0.95rem;
-            }
-            
-            .tab-content {
-                padding: 20px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .couple-names {
-                font-size: 2rem;
-            }
-            
-            .gallery-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .tabs {
-                flex-direction: column;
-            }
-        }
     </style>
 </head>
 <body>
-    <div class="wedding-header">
-        <div class="couple-names">Alex & Taylor</div>
-        <div class="wedding-date">August 14, 2025</div>
-        <div class="quote">"A successful marriage requires falling in love many times, always with the same person."</div>
-    </div>
-    
+    <div class="hearts-container"></div>
     <div class="container">
-        <div class="tabs">
-            <div class="tab active" data-tab="upload">Upload Photos</div>
-            <div class="tab" data-tab="gallery">View Gallery</div>
-        </div>
-        
-        <!-- Upload Tab Content -->
-        <div id="uploadTab" class="tab-content active">
-            <div class="upload-area" id="uploadArea">
-                <div class="upload-icon">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                </div>
-                <p class="upload-text">Drag & drop your photos here or <strong>browse</strong> to upload</p>
-                <button class="upload-btn" id="uploadBtn">
-                    <i class="fas fa-upload"></i> Select Photos
-                </button>
-                <input type="file" id="fileInput" class="file-input" multiple accept="image/*">
-                <p style="margin-top: 15px; color: #888; font-size: 0.85rem;">Supported formats: JPG, PNG, GIF (Max 5MB each)</p>
-            </div>
-            
-            <div class="preview-container" id="previewContainer"></div>
-            
-            <div class="progress-container" id="progressContainer">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill"></div>
-                </div>
-                <div class="progress-text">Uploading: <span id="progressText">0%</span></div>
-            </div>
-            
-            <div class="status-container" id="statusContainer"></div>
-        </div>
-        
-        <!-- Gallery Tab Content -->
-        <div id="galleryTab" class="tab-content">
-            <div class="gallery-header">
-                <h2>Our Wedding Memories</h2>
-                <p>Relive the beautiful moments from our special day</p>
-            </div>
-            
-            <div class="gallery-container">
-                <div class="gallery-grid" id="galleryGrid">
-                    <!-- Gallery items will be added here -->
-                </div>
-            </div>
-        </div>
+        <h1>Wedding Photo Collector</h1>
+        <p>Share your beautiful moments from the wedding! Upload your photos here.</p>
+        <input type="file" id="fileInput" multiple accept="image/*">
+        <button id="uploadBtn">Upload Photos</button>
+        <div id="status"></div>
     </div>
-    
-    <!-- Lightbox -->
-    <div class="lightbox" id="lightbox">
-        <div class="lightbox-close" id="lightboxClose">
-            <i class="fas fa-times"></i>
-        </div>
-        <div class="lightbox-nav lightbox-prev" id="lightboxPrev">
-            <i class="fas fa-chevron-left"></i>
-        </div>
-        <div class="lightbox-nav lightbox-next" id="lightboxNext">
-            <i class="fas fa-chevron-right"></i>
-        </div>
-        <div class="lightbox-content">
-            <img id="lightboxImage" src="" alt="Gallery Image">
-        </div>
-    </div>
-    
-    <div class="floating-hearts"></div>
-    
-    <footer>
-        <p>Created with love for Alex & Taylor's Wedding • Share your memories with us</p>
-    </footer>
 
     <script>
         // GitHub API Configuration
-        const GITHUB_TOKEN = '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';
-        const REPO_OWNER = 'hasithachathurangadev-ai';
-        const REPO_NAME = 'wedding-photos';
-        const BRANCH = 'main';
-        const PATH = 'photos';
+        const GITHUB_TOKEN = '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'; // Replace with your GitHub Personal Access Token
+        const REPO_OWNER = 'hasithachathurangadev-ai'; // Replace with your GitHub username
+        const REPO_NAME = 'wedding-photos'; // Replace with your repository name
+        const BRANCH = 'main'; // Replace with your branch name if different
+        const PATH = 'photos'; // Folder in repo where photos will be stored
 
-        // DOM elements
-        const uploadArea = document.getElementById('uploadArea');
-        const uploadBtn = document.getElementById('uploadBtn');
-        const fileInput = document.getElementById('fileInput');
-        const previewContainer = document.getElementById('previewContainer');
-        const progressContainer = document.getElementById('progressContainer');
-        const progressFill = document.getElementById('progressFill');
-        const progressText = document.getElementById('progressText');
-        const statusContainer = document.getElementById('statusContainer');
-        const galleryGrid = document.getElementById('galleryGrid');
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImage = document.getElementById('lightboxImage');
-        const lightboxClose = document.getElementById('lightboxClose');
-        const lightboxPrev = document.getElementById('lightboxPrev');
-        const lightboxNext = document.getElementById('lightboxNext');
-        const floatingHearts = document.querySelector('.floating-hearts');
-        
-        // Tab elements
-        const tabs = document.querySelectorAll('.tab');
-        const tabContents = document.querySelectorAll('.tab-content');
-        
-        // Selected files array
-        let selectedFiles = [];
-        
-        // Gallery images array
-        let galleryImages = [
-            { 
-                id: 1, 
-                title: "The First Dance", 
-                date: "August 14, 2025",
-                src: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1738&q=80"
-            },
-            { 
-                id: 2, 
-                title: "Bride & Groom", 
-                date: "August 14, 2025",
-                src: "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
-            },
-            { 
-                id: 3, 
-                title: "Wedding Party", 
-                date: "August 14, 2025",
-                src: "https://images.unsplash.com/photo-1592578889126-44023bde8b04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
-            },
-            { 
-                id: 4, 
-                title: "Ceremony", 
-                date: "August 14, 2025",
-                src: "https://images.unsplash.com/photo-1520854221256-17451cc331bf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
-            },
-            { 
-                id: 5, 
-                title: "Reception", 
-                date: "August 14, 2025",
-                src: "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
-            },
-            { 
-                id: 6, 
-                title: "Cake Cutting", 
-                date: "August 14, 2025",
-                src: "https://images.unsplash.com/photo-1532710093739-9470acff878f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
-            }
-        ];
-        
-        // Current lightbox index
-        let currentLightboxIndex = 0;
-        
-        // Initialize the gallery
-        function initGallery() {
-            galleryGrid.innerHTML = '';
-            
-            if (galleryImages.length === 0) {
-                galleryGrid.innerHTML = `
-                    <div class="gallery-empty">
-                        <i class="fas fa-camera"></i>
-                        <h3>No Photos Yet</h3>
-                        <p>Be the first to share your memories! Upload photos using the upload tab.</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            galleryImages.forEach((image, index) => {
-                const galleryItem = document.createElement('div');
-                galleryItem.className = 'gallery-item';
-                galleryItem.innerHTML = `
-                    <img src="${image.src}" alt="${image.title}">
-                    <div class="overlay">
-                        <h3>${image.title}</h3>
-                        <p>${image.date}</p>
-                    </div>
-                `;
-                
-                galleryItem.addEventListener('click', () => openLightbox(index));
-                galleryGrid.appendChild(galleryItem);
-            });
-        }
-        
-        // Open lightbox
-        function openLightbox(index) {
-            currentLightboxIndex = index;
-            const image = galleryImages[index];
-            lightboxImage.src = image.src;
-            lightbox.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-        
-        // Close lightbox
-        function closeLightbox() {
-            lightbox.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-        
-        // Navigate lightbox
-        function navigateLightbox(direction) {
-            if (direction === 'prev') {
-                currentLightboxIndex = (currentLightboxIndex - 1 + galleryImages.length) % galleryImages.length;
-            } else {
-                currentLightboxIndex = (currentLightboxIndex + 1) % galleryImages.length;
-            }
-            
-            const image = galleryImages[currentLightboxIndex];
-            lightboxImage.src = image.src;
-        }
-        
-        // Tab switching
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const tabId = tab.dataset.tab;
-                
-                // Update tabs
-                tabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                
-                // Update content
-                tabContents.forEach(content => content.classList.remove('active'));
-                document.getElementById(`${tabId}Tab`).classList.add('active');
-                
-                // Initialize gallery when it's shown
-                if (tabId === 'gallery') {
-                    initGallery();
-                }
-            });
-        });
-        
-        // Lightbox events
-        lightboxClose.addEventListener('click', closeLightbox);
-        lightboxPrev.addEventListener('click', () => navigateLightbox('prev'));
-        lightboxNext.addEventListener('click', () => navigateLightbox('next'));
-        
-        // Close lightbox when clicking outside image
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox) {
-                closeLightbox();
-            }
-        });
-        
-        // Event listeners
-        uploadBtn.addEventListener('click', () => {
-            fileInput.click();
-        });
-        
-        fileInput.addEventListener('change', handleFileSelect);
-        
-        // Drag and drop functionality
-        uploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadArea.classList.add('active');
-        });
-        
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.classList.remove('active');
-        });
-        
-        uploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadArea.classList.remove('active');
-            
-            if (e.dataTransfer.files.length) {
-                fileInput.files = e.dataTransfer.files;
-                handleFileSelect();
-            }
-        });
-        
-        // Handle file selection
-        function handleFileSelect() {
-            const files = Array.from(fileInput.files);
-            if (files.length === 0) return;
-            
-            // Reset previous selections
-            selectedFiles = [];
-            previewContainer.innerHTML = '';
-            previewContainer.style.display = 'none';
-            
-            // Filter valid files
-            const validFiles = files.filter(file => {
-                const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-                const isValidType = validTypes.includes(file.type);
-                const isValidSize = file.size <= 5 * 1024 * 1024; // 5MB
-                
-                return isValidType && isValidSize;
-            });
-            
-            if (validFiles.length === 0) {
-                showStatus('Please select valid image files (JPG, PNG, GIF) under 5MB', 'error');
-                return;
-            }
-            
-            selectedFiles = validFiles;
-            
-            // Display previews
-            previewContainer.style.display = 'grid';
-            validFiles.forEach((file, index) => {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const previewItem = document.createElement('div');
-                    previewItem.className = 'preview-item';
-                    
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.className = 'preview-image';
-                    img.alt = 'Preview';
-                    
-                    const removeBtn = document.createElement('div');
-                    removeBtn.className = 'preview-remove';
-                    removeBtn.innerHTML = '<i class="fas fa-times"></i>';
-                    removeBtn.addEventListener('click', () => removeFile(index));
-                    
-                    previewItem.appendChild(img);
-                    previewItem.appendChild(removeBtn);
-                    previewContainer.appendChild(previewItem);
-                };
-                reader.readAsDataURL(file);
-            });
-            
-            // Enable upload button
-            uploadBtn.textContent = `Upload ${validFiles.length} Photo${validFiles.length > 1 ? 's' : ''}`;
-            uploadBtn.onclick = startUpload;
-        }
-        
-        // Remove file from selection
-        function removeFile(index) {
-            selectedFiles.splice(index, 1);
-            
-            // Update preview
-            previewContainer.innerHTML = '';
-            if (selectedFiles.length > 0) {
-                selectedFiles.forEach((file, idx) => {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        const previewItem = document.createElement('div');
-                        previewItem.className = 'preview-item';
-                        
-                        const img = document.createElement('img');
-                        img.src = e.target.result;
-                        img.className = 'preview-image';
-                        img.alt = 'Preview';
-                        
-                        const removeBtn = document.createElement('div');
-                        removeBtn.className = 'preview-remove';
-                        removeBtn.innerHTML = '<i class="fas fa-times"></i>';
-                        removeBtn.addEventListener('click', () => removeFile(idx));
-                        
-                        previewItem.appendChild(img);
-                        previewItem.appendChild(removeBtn);
-                        previewContainer.appendChild(previewItem);
-                    };
-                    reader.readAsDataURL(file);
-                });
-                
-                uploadBtn.textContent = `Upload ${selectedFiles.length} Photo${selectedFiles.length > 1 ? 's' : ''}`;
-            } else {
-                previewContainer.style.display = 'none';
-                uploadBtn.textContent = 'Select Photos';
-                uploadBtn.onclick = () => fileInput.click();
-            }
-        }
-        
-        // Start upload process
-        function startUpload() {
-            if (selectedFiles.length === 0) {
-                showStatus('Please select photos to upload', 'error');
-                return;
-            }
-            
-            // Reset status
-            hideStatus();
-            progressContainer.style.display = 'block';
-            uploadBtn.disabled = true;
-            uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
-            
-            // Simulate upload progress
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += 5;
-                if (progress > 100) {
-                    clearInterval(interval);
-                    uploadFilesToGitHub();
-                    return;
-                }
-                updateProgress(progress);
-            }, 200);
-        }
-        
-        // Update progress bar
-        function updateProgress(percent) {
-            progressFill.style.width = `${percent}%`;
-            progressText.textContent = `${percent}%`;
-        }
-        
         // Handle file upload to GitHub
-        async function uploadFilesToGitHub() {
-            const status = document.getElementById('statusContainer');
-            
-            try {
-                for (let file of selectedFiles) {
-                    await uploadFile(file);
-                }
-                
-                // After all files are uploaded
-                progressContainer.style.display = 'none';
-                showStatus(`${selectedFiles.length} photo${selectedFiles.length > 1 ? 's' : ''} uploaded successfully!`, 'success');
-                
-                // Add uploaded photos to gallery
-                selectedFiles.forEach((file, index) => {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        const newId = galleryImages.length + 1;
-                        const newImage = {
-                            id: newId,
-                            title: `Guest Photo ${newId}`,
-                            date: new Date().toLocaleDateString('en-US', { 
-                                year: 'numeric', 
-                                month: 'long', 
-                                day: 'numeric' 
-                            }),
-                            src: e.target.result
-                        };
-                        
-                        galleryImages.push(newImage);
-                        
-                        // If we're on the gallery tab, update it
-                        if (document.getElementById('galleryTab').classList.contains('active')) {
-                            initGallery();
-                        }
-                    };
-                    reader.readAsDataURL(file);
-                });
-                
-                // Reset UI
-                selectedFiles = [];
-                previewContainer.style.display = 'none';
-                previewContainer.innerHTML = '';
-                uploadBtn.disabled = false;
-                uploadBtn.innerHTML = '<i class="fas fa-upload"></i> Select Photos';
-                uploadBtn.onclick = () => fileInput.click();
-                fileInput.value = '';
-                
-                // Create floating hearts for celebration
-                createHearts(15);
-                
-            } catch (error) {
-                showStatus('Error: ' + error.message, 'error');
-                progressContainer.style.display = 'none';
-                uploadBtn.disabled = false;
-                uploadBtn.innerHTML = '<i class="fas fa-upload"></i> Try Again';
-                uploadBtn.onclick = startUpload;
-            }
-        }
-        
-        // Upload individual file to GitHub
         async function uploadFile(file) {
+            const status = document.getElementById('status');
+            status.textContent = 'Uploading...';
+
+            // Convert file to base64
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
             return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                
                 reader.onload = async () => {
                     const base64Content = reader.result.split(',')[1];
                     const filePath = `${PATH}/${Date.now()}_${file.name}`;
@@ -1032,66 +155,49 @@
                         );
 
                         if (response.ok) {
+                            status.textContent = 'Photos uploaded successfully!';
                             resolve();
                         } else {
-                            const errorData = await response.json();
-                            reject(new Error(errorData.message || 'Upload failed'));
+                            status.textContent = 'Upload failed. Please try again.';
+                            reject(new Error('Upload failed'));
                         }
                     } catch (error) {
+                        status.textContent = 'Error: ' + error.message;
                         reject(error);
                     }
                 };
-                
                 reader.onerror = () => {
-                    reject(new Error('Error reading file'));
+                    status.textContent = 'Error reading file.';
+                    reject(new Error('File read error'));
                 };
             });
         }
-        
-        // Show status message
-        function showStatus(message, type) {
-            statusContainer.textContent = message;
-            statusContainer.className = `status-container ${type}`;
-            statusContainer.style.display = 'block';
-            
-            if (type === 'success') {
-                statusContainer.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
-            } else {
-                statusContainer.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
+
+        // Event listeners
+        document.getElementById('uploadBtn').addEventListener('click', () => {
+            document.getElementById('fileInput').click();
+        });
+
+        document.getElementById('fileInput').addEventListener('change', async (e) => {
+            const files = e.target.files;
+            if (files.length > 0) {
+                for (let file of files) {
+                    await uploadFile(file);
+                }
             }
-            
-            // Auto-hide success messages after 5 seconds
-            if (type === 'success') {
-                setTimeout(hideStatus, 5000);
-            }
+        });
+
+        // Generate floating hearts for animation
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDelay = Math.random() * 2 + 's';
+            document.querySelector('.hearts-container').appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
         }
-        
-        // Hide status message
-        function hideStatus() {
-            statusContainer.style.display = 'none';
-        }
-        
-        // Create floating hearts
-        function createHearts(count) {
-            for (let i = 0; i < count; i++) {
-                const heart = document.createElement('div');
-                heart.className = 'heart';
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.animationDelay = Math.random() * 2 + 's';
-                heart.style.width = Math.random() * 10 + 10 + 'px';
-                heart.style.height = heart.style.width;
-                heart.style.backgroundColor = `hsl(${Math.random() * 20 + 330}, 100%, 85%)`;
-                floatingHearts.appendChild(heart);
-                
-                setTimeout(() => heart.remove(), 8000);
-            }
-        }
-        
-        // Initialize gallery on first load
-        initGallery();
-        
-        // Initial floating hearts
-        setInterval(() => createHearts(1), 1500);
+
+        setInterval(createHeart, 300);
     </script>
 </body>
 </html>
