@@ -90,6 +90,12 @@
             box-shadow: 0 5px 15px rgba(139, 30, 63, 0.4);
         }
 
+        #uploadBtn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            animation: none;
+        }
+
         #fileInput {
             display: none;
         }
@@ -97,11 +103,13 @@
         #status {
             margin-top: 20px;
             font-size: 1.1rem;
-            color: #28a745;
             font-weight: 500;
             text-align: center;
             animation: fadeIn 0.5s;
         }
+
+        #status.success { color: #28a745; }
+        #status.error { color: #dc3545; }
 
         .gallery-section {
             margin-top: 40px;
@@ -161,7 +169,6 @@
             z-index: -1;
         }
 
-        /* Modal for full-screen image view */
         .modal {
             display: none;
             position: fixed;
@@ -220,18 +227,28 @@
     </div>
 
     <script>
-        // GitHub API Configuration
-        const GITHUB_TOKEN = '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'; // Replace with your GitHub Personal Access Token
-        const REPO_OWNER = 'hasithachathurangadev-ai'; // Replace with your GitHub username
-        const REPO_NAME = 'wedding-photos'; // Replace with your repository name
-        const BRANCH = 'main'; // Replace with your branch name if different
-        const PATH = 'photos'; // Folder in repo where photos will be stored
+        // GitHub Configuration
+        const REPO_OWNER = 'hasithachathurangadev-ai'; // Your GitHub username
+        const REPO_NAME = 'wedding-photos'; // Your repository name
+        const BRANCH = 'main';
+        const PATH = 'photos';
 
+        // *** WARNING: Do not hardcode a real GitHub token here for public deployment ***
+        // For testing, replace with a real token ONLY locally and remove before pushing to GitHub Pages.
+        const GITHUB_TOKEN = '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'; // Replace locally for testing, remove for production
 
         // Fetch and display photos from GitHub
         async function loadGallery() {
             const gallery = document.getElementById('gallery');
+            const status = document.getElementById('status');
             gallery.innerHTML = '<p>Loading gallery...</p>';
+
+            if (!GITHUB_TOKEN) {
+                gallery.innerHTML = '<p>Please configure GitHub token for access.</p>';
+                status.className = 'error';
+                status.textContent = 'GitHub token missing.';
+                return;
+            }
 
             try {
                 const response = await fetch(
@@ -256,6 +273,7 @@
                         const img = document.createElement('img');
                         img.src = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/${file.path}`;
                         img.alt = file.name;
+                        img.loading = 'lazy';
                         img.addEventListener('click', () => openModal(img.src));
                         gallery.appendChild(img);
                     }
@@ -264,8 +282,13 @@
                 if (files.length === 0) {
                     gallery.innerHTML = '<p>No photos available.</p>';
                 }
+
+                status.className = 'success';
+                status.textContent = 'Gallery loaded successfully!';
             } catch (error) {
                 gallery.innerHTML = '<p>Error loading gallery.</p>';
+                status.className = 'error';
+                status.textContent = 'Error loading gallery: ' + (error.message || 'Unknown error');
                 console.error(error);
             }
         }
@@ -273,9 +296,15 @@
         // Handle file upload to GitHub
         async function uploadFile(file) {
             const status = document.getElementById('status');
+            status.className = '';
             status.textContent = 'Uploading...';
 
-            // Convert file to base64
+            if (!GITHUB_TOKEN) {
+                status.className = 'error';
+                status.textContent = 'Please configure GitHub token for uploads.';
+                return;
+            }
+
             const reader = new FileReader();
             reader.readAsDataURL(file);
             return new Promise((resolve, reject) => {
@@ -301,19 +330,23 @@
                         );
 
                         if (response.ok) {
-                            status.textContent = 'Photos uploaded successfully!';
+                            status.className = 'success';
+                            status.textContent = 'Photo uploaded successfully!';
                             resolve();
                             loadGallery();
                         } else {
+                            status.className = 'error';
                             status.textContent = 'Upload failed. Please try again.';
                             reject(new Error('Upload failed'));
                         }
                     } catch (error) {
-                        status.textContent = 'Error: ' + error.message;
+                        status.className = 'error';
+                        status.textContent = 'Error: ' + (error.message || 'Unknown error');
                         reject(error);
                     }
                 };
                 reader.onerror = () => {
+                    status.className = 'error';
                     status.textContent = 'Error reading file.';
                     reject(new Error('File read error'));
                 };
@@ -340,9 +373,11 @@
         document.getElementById('fileInput').addEventListener('change', async (e) => {
             const files = e.target.files;
             if (files.length > 0) {
+                document.getElementById('uploadBtn').disabled = true;
                 for (let file of files) {
                     await uploadFile(file);
                 }
+                document.getElementById('uploadBtn').disabled = false;
             }
         });
 
@@ -362,8 +397,4 @@
         window.onload = loadGallery;
     </script>
 </body>
-
 </html>
-
-
-
